@@ -1,0 +1,30 @@
+.Dd March 17, 2015
+.Dt FJINIT 8 fjinit\-VERSION
+.Os
+.Sh NAME
+.Nm fjinit
+.Nd simple process reaper for firejail
+.Sh SYNOPSIS
+.Nm
+command
+[args...]
+.Sh DESCRIPTION
+.Nm
+is a simple init-like process reaper for use with firejail.
+.Nm
+will fork and execute the command given as its arguments. If started as PID 1,
+it will stay running while cleaning up defunct processes.
+.Ss Signal handling
+.Nm
+will respond to the following signals:
+.Bl -tag -width xxxxxxxx
+.It CHLD
+Reap children.
+.It TERM
+Exit.
+.It INT
+Exit.
+.El
+.Sh AUTHORS
+.An Dimitris Papastamos Aq Mt sin@2f30.org .
+.An Score_Under Aq Mt seejay.11@gmail.com .

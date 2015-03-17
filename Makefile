@@ -1,14 +1,12 @@
 include config.mk
 
-OBJ = sinit.o
-BIN = sinit
+OBJ = fjinit.o
+BIN = fjinit
 
 all: $(BIN)
 
 $(BIN): $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ) $(LDLIBS)
-
-$(OBJ): config.h
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -21,14 +19,14 @@ uninstall:
 	rm -f $(DESTDIR)$(MANPREFIX)/man8/$(BIN).8
 
 dist: clean
-	mkdir -p sinit-$(VERSION)
-	cp LICENSE Makefile README config.def.h config.mk sinit.8 sinit.c sinit-$(VERSION)
-	tar -cf sinit-$(VERSION).tar sinit-$(VERSION)
-	gzip sinit-$(VERSION).tar
-	rm -rf sinit-$(VERSION)
+	mkdir -p fjinit-$(VERSION)
+	cp LICENSE Makefile README config.mk fjinit.8 fjinit.c fjinit-$(VERSION)
+	tar -cf fjinit-$(VERSION).tar fjinit-$(VERSION)
+	gzip fjinit-$(VERSION).tar
+	rm -rf fjinit-$(VERSION)
 
 clean:
-	rm -f $(BIN) $(OBJ) sinit-$(VERSION).tar.gz
+	rm -f $(BIN) $(OBJ) fjinit-$(VERSION).tar.gz
 
 .SUFFIXES: .def.h
 

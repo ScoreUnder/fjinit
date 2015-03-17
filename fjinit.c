@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#define _POSIX_SOURCE
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -9,36 +10,36 @@
 
 #define LEN(x) (sizeof (x) / sizeof *(x))
 
-static void sigpoweroff(void);
+static void sigexit(void);
 static void sigreap(void);
-static void sigreboot(void);
 static void spawn(char *const []);
 
 static struct {
 	int sig;
 	void (*handler)(void);
 } sigmap[] = {
-	{ SIGUSR1, sigpoweroff },
+	{ SIGTERM, sigexit     },
+	{ SIGINT , sigexit     },
 	{ SIGCHLD, sigreap     },
-	{ SIGINT,  sigreboot   },
 };
-
-#include "config.h"
 
 static sigset_t set;
 
 int
-main(void)
+main(int argc, char **argv)
 {
 	int sig;
 	size_t i;
+	(void) argc;
 
-	if (getpid() != 1)
-		return 1;
 	chdir("/");
 	sigfillset(&set);
 	sigprocmask(SIG_BLOCK, &set, NULL);
-	spawn(rcinitcmd);
+	spawn(argv + 1);
+
+	if (getpid() != 1)
+		return 1;
+
 	while (1) {
 		sigwait(&set, &sig);
 		for (i = 0; i < LEN(sigmap); i++) {
@@ -53,9 +54,9 @@ main(void)
 }
 
 static void
-sigpoweroff(void)
+sigexit(void)
 {
-	spawn(rcpoweroffcmd);
+	_exit(0);
 }
 
 static void
@@ -63,12 +64,6 @@ sigreap(void)
 {
 	while (waitpid(-1, NULL, WNOHANG) > 0)
 		;
-}
-
-static void
-sigreboot(void)
-{
-	spawn(rcrebootcmd);
 }
 
 static void
