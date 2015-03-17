@@ -22,4 +22,6 @@ It takes the command to run as an argument, and will fork and run it.
 If it is not running as PID 1, it will just fork and exec without staying
 around to reap processes.
 
+If it started as PID 1, this will stay around until interrupted or killed.
+
 [1]: http://tools.suckless.org/sinit "sinit homepage"
