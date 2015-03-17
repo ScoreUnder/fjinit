@@ -1,7 +1,7 @@
 fjinit - a process reaper for firejail
 ======================================
 
-fjinit is a process reaper based on sinit[1], but with a few tweaks.
+fjinit is a process reaper based on [sinit][1], but with a few tweaks.
 After removing some features I thought that it no longer deserved to be called
 an init system.
 
