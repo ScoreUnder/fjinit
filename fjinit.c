@@ -18,9 +18,9 @@ static struct {
 	int sig;
 	void (*handler)(void);
 } sigmap[] = {
+	{ SIGCHLD, sigreap     },
 	{ SIGTERM, sigexit     },
 	{ SIGINT , sigexit     },
-	{ SIGCHLD, sigreap     },
 };
 
 static sigset_t set;
